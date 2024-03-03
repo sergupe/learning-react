@@ -1,26 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react'
+import { Square } from './components/Square'
 import './App.css'
 
 const TURNS = {
   X: 'x',
   O: 'o'
-}
-
-
-const Square = ({ children, isSelected, updateBoard, index }) => {
-  // Highlight the selected turn
-  const className = `square ${isSelected ? 'is-selected' : ''}`
-  // Handle the click in the cell
-  const handleClick = () => {
-    updateBoard(index)
-  }
-
-  return (
-    <div onClick={handleClick} className={className}>
-      {children}
-    </div>
-  )
 }
 
 const WINNER_COMBOS = [
