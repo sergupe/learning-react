@@ -1,8 +1,9 @@
-/* eslint-disable react/prop-types */
 import { useState } from 'react'
 import confetti from 'canvas-confetti'
 import { Square } from './components/Square'
-import { TURNS, WINNER_COMBOS } from './utils/GlobalConst'
+import { TURNS } from './utils/GlobalConst'
+import { checkWinner, checkEndGame } from './logic/board'
+import { WinnerModal } from './components/WinnerModal'
 import './App.css'
 
 function App() {
@@ -14,25 +15,6 @@ function App() {
     setBoard(Array(9).fill(null))
     setTurn(TURNS.X)
     setWinner(null)
-  }
-
-  const checkWinner = (boardToCheck) => {
-    for(const combo of WINNER_COMBOS){
-      const [a,b,c] = combo
-      if(
-        boardToCheck[a] &&
-        boardToCheck[a] === boardToCheck[b] &&
-        boardToCheck[a] === boardToCheck[c]
-      ) {
-        return boardToCheck[a]
-      }
-    }
-    // If there is no winner
-    return null
-  }
-
-  const checkEndGame = (boardToCheck) => {
-    return boardToCheck.every((square) => square !== null)
   }
 
   const updateBoard = (index) => {
@@ -85,29 +67,7 @@ function App() {
         </Square>
       </section>
 
-      {
-        winner !== null && (
-          <section className='winner'>
-            <div className='text'>
-              <h2>
-                {
-                  winner === false ? 'Draw' : 'Winner: '
-                }
-              </h2>
-
-              <header className='win'>
-                {
-                  winner && <Square>{winner}</Square>
-                }
-              </header>
-
-              <footer>
-                <button onClick={resetGame}>Play Again</button>
-              </footer>
-            </div>
-          </section>
-        )
-      }
+      <WinnerModal winner={winner} resetGame={resetGame}/>
     </main>
   )
 }

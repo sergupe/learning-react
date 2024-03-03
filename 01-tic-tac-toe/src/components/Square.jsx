@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import './Square.css'
 
 export function Square({ children, isSelected, updateBoard, index }) {
