@@ -4,6 +4,7 @@ import { Square } from './components/Square'
 import { TURNS } from './utils/GlobalConst'
 import { checkWinner, checkEndGame } from './logic/board'
 import { WinnerModal } from './components/WinnerModal'
+import { saveGame, resetGameStorage } from './utils/Storage'
 import './App.css'
 
 function App() {
@@ -24,8 +25,7 @@ function App() {
     setTurn(TURNS.X)
     setWinner(null)
     // Remove stored game data
-    window.localStorage.removeItem('board')
-    window.localStorage.removeItem('turn')
+    resetGameStorage()
   }
 
   const updateBoard = (index) => {
@@ -39,8 +39,10 @@ function App() {
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
     // save game
-    window.localStorage.setItem('board', JSON.stringify(newBoard))
-    window.localStorage.setItem('turn', newTurn)
+    saveGame({
+      board: newBoard,
+      turn: newTurn
+    })
     // Check if there is a winner
     const newWinner = checkWinner(newBoard)
     if(newWinner){
