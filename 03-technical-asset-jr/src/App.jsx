@@ -7,14 +7,16 @@ function App() {
   const [fact, setFact] = useState()
   const [imageUrl, setImageUrl] = useState()
 
-  useEffect(() => {
+  const getRandomFact = () => {
     fetch(CAT_FACT_ENDPOINT)
       .then(res => res.json())
       .then(data => {
         const { fact } = data
         setFact(fact)
       })
-  }, [])
+  }
+
+  useEffect(getRandomFact, [])
 
   useEffect(() => {
     if(!fact) return
@@ -30,9 +32,14 @@ function App() {
     })
   }, [fact])
 
+  const handleClick = () => {
+    getRandomFact()
+  }
+
   return (
     <main>
       <h1>Cats App</h1>
+      <button onClick={handleClick}>Get new fact</button>
       <section>
         {fact && <p>{fact}</p>}
         {imageUrl && <img src={`${imageUrl}`} alt={`Image extracted from ${fact}`} />}
