@@ -1,22 +1,15 @@
 import { useState, useEffect } from 'react'
+import { getRandomFact } from './logic/Fact'
 import './App.css'
-
-const CAT_FACT_ENDPOINT = 'https://catfact.ninja/fact'
 
 function App() {
   const [fact, setFact] = useState()
   const [imageUrl, setImageUrl] = useState()
 
-  const getRandomFact = () => {
-    fetch(CAT_FACT_ENDPOINT)
-      .then(res => res.json())
-      .then(data => {
-        const { fact } = data
-        setFact(fact)
-      })
-  }
-
-  useEffect(getRandomFact, [])
+  useEffect(() => {
+    // One way to do it
+    getRandomFact().then(setFact)
+  }, [])
 
   useEffect(() => {
     if(!fact) return
@@ -33,7 +26,10 @@ function App() {
   }, [fact])
 
   const handleClick = () => {
-    getRandomFact()
+    // Another way to do it. RECOMENDED!
+    getRandomFact().then(newFact => {
+      setFact(newFact)
+    })
   }
 
   return (
